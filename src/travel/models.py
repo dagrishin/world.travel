@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, ForeignKey, Date
 
-from src.models import Base
+from db.session import Base
 
 
 class Countries(Base):

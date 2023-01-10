@@ -3,7 +3,7 @@ import uuid
 from sqlalchemy import Column, String, Boolean
 from sqlalchemy.dialects.postgresql import UUID
 
-from src.models import Base
+from db.session import Base
 
 
 class User(Base):
