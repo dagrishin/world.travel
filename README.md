@@ -29,13 +29,38 @@ pip install -r requirements.txt
 ```
 
 4. Set up the database and environment variables
+
 ```
 cp .env.example .env
 ```
 
 5. Run the project
+
 ```
 uvicorn main:app --reload
+```
+
+## Database Migrations
+
+To set up the database and apply migrations, you will need to have alembic installed.
+
+1. Initialize alembic:
+
+```
+alembic init migrations
+```
+
+2. Update the alembic.ini file with the database url
+3. Generate migration script
+
+```
+alembic revision --autogenerate -m "Initial migration"
+```
+
+4. Apply migration
+
+```
+alembic upgrade heads
 ```
 
 ## Contributing
@@ -43,4 +68,5 @@ uvicorn main:app --reload
 If you would like to contribute to this project, please open a pull request or contact me.
 
 ## Licence
+
 This project is under the MIT License - see the [LICENSE](LICENSE) file for details
