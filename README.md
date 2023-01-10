@@ -12,7 +12,7 @@ This is a web application for tracking and sharing your travel experiences and f
 To run this project locally, you will need to have Python 3.7+ and pip installed.
 1. Clone the repository.
 ```
-git clone https://github.com/your-username/world_travel.git
+git clone https://github.com/dagrishin/world_travel.git
 ```
 
 2. Create and activate a virtual environment.
