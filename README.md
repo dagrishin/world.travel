@@ -5,7 +5,7 @@ This is a web application for tracking and sharing your travel experiences and f
 ## Technologies Used
 - FastAPI 
 - SQLAlchemy
-- Python 3.7+
+- Python 3.10+
 
 ## Setting Up
 
