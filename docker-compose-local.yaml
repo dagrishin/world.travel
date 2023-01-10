@@ -1,7 +1,7 @@
 version: "3.0"
 services:
-  db:
-    container_name: "db"
+  travel_db:
+    container_name: "travel_db"
     image: postgres:14.1-alpine
     restart: always
     environment:
@@ -10,10 +10,12 @@ services:
       - POSTGRES_DB=postgres
     ports:
       - "5432:5432"
+    volumes:
+      - postgresql_db_data:/var/lib/postgresql/postgresql_db_data:rw
     networks:
       - custom
-  db_test:
-    container_name: "db_test"
+  travel_db_test:
+    container_name: "travel_db_test"
     image: postgres:14.1-alpine
     restart: always
     environment:
@@ -27,3 +29,6 @@ services:
 networks:
   custom:
     driver: bridge
+
+volumes:
+  postgresql_db_data:
