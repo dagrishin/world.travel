@@ -14,6 +14,14 @@ services:
       - postgresql_db_data:/var/lib/postgresql/postgresql_db_data:rw
     networks:
       - custom
+  redis:
+    image: 'redis:alpine'
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - custom
+
   travel_db_test:
     container_name: "travel_db_test"
     image: postgres:14.1-alpine
