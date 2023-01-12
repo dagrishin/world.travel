@@ -11,7 +11,7 @@ class Booking(Base):
     start_date = Column(Date, nullable=False)
     end_date = Column(Date, nullable=False)
     user_id = Column(UUID, ForeignKey('users.id'), nullable=False)
-    user = relationship("Users", back_populates="bookings")
+    user = relationship("User", back_populates="bookings")
     hotel_id = Column(Integer, ForeignKey('hotels.id'))
     hotel = relationship("Hotels", back_populates="bookings")
     restaurant_id = Column(Integer, ForeignKey('restaurants.id'))

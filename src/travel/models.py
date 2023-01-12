@@ -2,6 +2,8 @@ from sqlalchemy import Column, Integer, String, Float, ForeignKey, Date
 from sqlalchemy.orm import relationship
 
 from db.session import Base
+from src.bookings import Booking
+from src.travel_posts import UserTravelExperiences
 
 
 class Countries(Base):
@@ -12,6 +14,7 @@ class Countries(Base):
     continent = Column(String(255), nullable=False)
     population = Column(Integer, nullable=False)
     cities = relationship("Cities", back_populates="country")
+    addresses = relationship("Address", back_populates="country")
     user_travel_experiences = relationship("UserTravelExperiences", back_populates="country")
 
 
@@ -43,6 +46,7 @@ class Address(Base):
     country = relationship("Countries", back_populates="addresses")
     hotels = relationship("Hotels", back_populates="address")
     restaurants = relationship("Restaurants", back_populates="address")
+    places = relationship("Place", back_populates="address")
 
 
 class Hotels(Base):
@@ -55,15 +59,16 @@ class Hotels(Base):
     address = relationship("Address", back_populates="hotels")
     city = relationship("Cities", back_populates="hotels")
     bookings = relationship("Booking", back_populates="hotel")
+    places = relationship("Place", back_populates="hotel")
     content = relationship(
         "Content",
         back_populates="hotel",
-        primaryjoin="and_(Hotels.id == Content.content_id, Content.content_type==Hotels.__tablename__)"
+        primaryjoin="and_(Hotels.id == foreign(Content.content_id), Content.content_type=='hotels')",
     )
     reviews = relationship(
         "Reviews",
         back_populates="hotel",
-        primaryjoin="and_(Hotels.id == Reviews.review_id, Reviews.review_type==Hotels.__tablename__)"
+        primaryjoin="and_(Hotels.id == foreign(Reviews.review_id), Reviews.review_type=='hotels')"
     )
 
 
@@ -77,17 +82,18 @@ class Restaurants(Base):
     address = relationship("Address", back_populates="restaurants")
     city = relationship("Cities", back_populates="restaurants")
     bookings = relationship("Booking", back_populates="restaurant")
-    tags = relationship("Tag", secondary="restaurant_tags")
+    places = relationship("Place", back_populates="restaurant")
+    # tags = relationship("Tags", back_populates="restaurants_tags")
 
     content = relationship(
         "Content",
         back_populates="restaurant",
-        primaryjoin="and_(Restaurants.id == Content.content_id, Content.content_type==Restaurants.__tablename__)"
+        primaryjoin="and_(Restaurants.id == foreign(Content.content_id), Content.content_type=='restaurants')"
     )
     reviews = relationship(
         "Reviews",
         back_populates="restaurant",
-        primaryjoin="and_(Restaurants.id == Reviews.review_id, Reviews.review_type==Restaurants.__tablename__)"
+        primaryjoin="and_(Restaurants.id == foreign(Reviews.review_id), Reviews.review_type=='restaurants')"
     )
 
 

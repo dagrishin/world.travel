@@ -13,7 +13,7 @@ class Track(Base):
     start_date = Column(Date, nullable=False)
     end_date = Column(Date, nullable=False)
     user_id = Column(UUID, ForeignKey('users.id'), nullable=False)
-    user = relationship("Users", back_populates="tracks")
+    user = relationship("User", back_populates="tracks")
     name = Column(String)
     places = relationship("Place", secondary="track_places")
 
@@ -25,15 +25,15 @@ class Place(Base):
     name = Column(String)
     type = Column(String)
     user_id = Column(UUID, ForeignKey('users.id'))
-    user = relationship("User", back_populates="place")
+    user = relationship("User", back_populates="places")
     address_id = Column(Integer, ForeignKey('addresses.id'), nullable=False)
-    address = relationship("Address", back_populates="place")
-    attractions_id = Column(Integer, ForeignKey('attractions.id'), nullable=False)
-    attractions = relationship("Attractions", back_populates="place")
+    address = relationship("Address", back_populates="places")
+    attraction_id = Column(Integer, ForeignKey('attractions.id'), nullable=False)
+    attraction = relationship("Attractions", back_populates="places")
     hotels_id = Column(Integer, ForeignKey('hotels.id'), nullable=False)
-    hotels = relationship("hotels", back_populates="place")
-    restaurants_id = Column(Integer, ForeignKey('restaurants.id'), nullable=False)
-    restaurants = relationship("Restaurants", back_populates="place")
+    hotel = relationship("Hotels", back_populates="places")
+    restaurant_id = Column(Integer, ForeignKey('restaurants.id'), nullable=False)
+    restaurant = relationship("Restaurants", back_populates="places")
 
 
 class TrackPlaces(Base):

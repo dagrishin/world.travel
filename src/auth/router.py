@@ -19,7 +19,7 @@ async def _create_new_user(body: UserCreate, db) -> ShowUser:
                 email=body.email,
             )
             return ShowUser(
-                user_id=user.user_id,
+                id=user.id,
                 name=user.name,
                 surname=user.surname,
                 email=user.email,

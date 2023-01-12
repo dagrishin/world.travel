@@ -5,6 +5,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
 from db.session import Base
+from src.tracks import Track, Place
 
 
 class User(Base):
@@ -16,14 +17,15 @@ class User(Base):
     email = Column(String, nullable=False, unique=True)
     is_active = Column(Boolean(), default=True)
 
-    travel_experiences = relationship("UserTravelExperiences", back_populates="user")
-    content = relationship(
-        "Content",
-        back_populates="user",
-        primaryjoin="and_(User.id == Content.content_id, Content.content_type==User.__tablename__)"
-    )
-    review = relationship(
-        "Reviews",
-        back_populates="user",
-        primaryjoin="and_(User.id == Reviews.review_id, Reviews.review_type==User.__tablename__)"
-    )
+    reviews = relationship("Reviews", back_populates="user")
+    user_travel_experiences = relationship("UserTravelExperiences", back_populates="user")
+    bookings = relationship("Booking", back_populates="user")
+    tracks = relationship("Track", back_populates="user")
+    places = relationship("Place", back_populates="user")
+
+    # content = relationship(
+    #     "Content",
+    #     back_populates="user",
+    #     primaryjoin="and_(User.id == foreign(Content.content_id), Content.content_type=='users')"
+    # )
+    #
