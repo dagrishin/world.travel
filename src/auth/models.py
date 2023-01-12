@@ -23,9 +23,8 @@ class User(Base):
     tracks = relationship("Track", back_populates="user")
     places = relationship("Place", back_populates="user")
 
-    # content = relationship(
-    #     "Content",
-    #     back_populates="user",
-    #     primaryjoin="and_(User.id == foreign(Content.content_id), Content.content_type=='users')"
-    # )
-    #
+    content = relationship(
+        "Content",
+        back_populates="user",
+        primaryjoin="and_(User.id == foreign(Content.content_id), Content.content_type=='users')"
+    )

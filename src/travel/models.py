@@ -1,5 +1,8 @@
+import uuid
+
 from sqlalchemy import Column, Integer, String, Float, ForeignKey, Date
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.postgresql import UUID
 
 from db.session import Base
 from src.bookings import Booking
@@ -9,7 +12,7 @@ from src.travel_posts import UserTravelExperiences
 class Countries(Base):
     __tablename__ = 'countries'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String(255), nullable=False)
     continent = Column(String(255), nullable=False)
     population = Column(Integer, nullable=False)
@@ -21,7 +24,7 @@ class Countries(Base):
 class Cities(Base):
     __tablename__ = 'cities'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String(255), nullable=False)
     population = Column(Integer, nullable=False)
     area = Column(Float, nullable=False)
@@ -36,7 +39,7 @@ class Cities(Base):
 
 class Address(Base):
     __tablename__ = 'addresses'
-    id = Column(Integer, primary_key=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     street = Column(String(255), nullable=False)
     city = Column(String(255), nullable=False)
     zipcode = Column(String(255), nullable=False)
@@ -51,7 +54,7 @@ class Address(Base):
 
 class Hotels(Base):
     __tablename__ = 'hotels'
-    id = Column(Integer, primary_key=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String(255), nullable=False)
     address_id = Column(Integer, ForeignKey('addresses.id'), nullable=False)
     rating = Column(Float, nullable=False)
@@ -74,7 +77,7 @@ class Hotels(Base):
 
 class Restaurants(Base):
     __tablename__ = 'restaurants'
-    id = Column(Integer, primary_key=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String(255), nullable=False)
     address_id = Column(Integer, ForeignKey('addresses.id'), nullable=False)
     rating = Column(Float, nullable=False)
@@ -83,7 +86,7 @@ class Restaurants(Base):
     city = relationship("Cities", back_populates="restaurants")
     bookings = relationship("Booking", back_populates="restaurant")
     places = relationship("Place", back_populates="restaurant")
-    # tags = relationship("Tags", back_populates="restaurants_tags")
+    tags = relationship("Tags", secondary="restaurants_tags")
 
     content = relationship(
         "Content",
@@ -99,7 +102,7 @@ class Restaurants(Base):
 
 class Weather(Base):
     __tablename__ = 'weather'
-    id = Column(Integer, primary_key=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     city_id = Column(Integer, ForeignKey('cities.id'), nullable=False)
     date = Column(Date, nullable=False)
     temperature = Column(Float, nullable=False)

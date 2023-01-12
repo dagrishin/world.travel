@@ -1,3 +1,5 @@
+import uuid
+
 from sqlalchemy import Column, Integer, String, Float, ForeignKey, Date, JSON
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
@@ -7,7 +9,7 @@ from db.session import Base
 
 class UserTravelExperiences(Base):
     __tablename__ = 'user_travel_experiences'
-    id = Column(Integer, primary_key=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     title = Column(String(255), nullable=False)
     date = Column(Date, nullable=False)
     location = Column(String(255), nullable=False)
@@ -32,13 +34,13 @@ class UserTravelExperiences(Base):
 
 class Reviews(Base):
     __tablename__ = 'reviews'
-    id = Column(Integer, primary_key=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     text = Column(String, nullable=False)
     rating = Column(Float, nullable=False)
     user_id = Column(UUID, ForeignKey('users.id'), nullable=False)
     user = relationship("User", back_populates="reviews")
     review_type = Column(String, nullable=False)
-    review_id = Column(Integer, nullable=False)
+    review_id = Column(UUID, nullable=False)
     data = Column(String, nullable=False)
     image_urls = Column(JSON, nullable=True)
 
