@@ -28,11 +28,3 @@ class Attractions(Base):
         back_populates="attraction",
         primaryjoin="and_(Attractions.id == foreign(Content.content_id), Content.content_type=='attractions')"
     )
-
-
-# class AttractionTags(Base):
-#     __tablename__ = 'attraction_tags'
-#     attraction_id = Column(Integer, ForeignKey('attractions.id'), primary_key=True)
-#     tag_id = Column(Integer, ForeignKey('tags.id'), primary_key=True)
-#     attraction = relationship("Attractions", back_populates="attraction_tags")
-#     tag = relationship("Tags", back_populates="attraction_tags")
