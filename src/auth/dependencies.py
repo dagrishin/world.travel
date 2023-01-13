@@ -50,7 +50,7 @@ async def get_current_user(db: AsyncSession = Depends(get_async_db), token: str 
 
 
 async def get_current_active_user(
-    current_user: User = Depends(get_current_user),
+        current_user: User = Depends(get_current_user),
 ) -> User:
     if not current_user.is_active:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Inactive user")
@@ -58,7 +58,7 @@ async def get_current_active_user(
 
 
 async def get_current_active_superuser(
-    current_user: User = Depends(get_current_user),
+        current_user: User = Depends(get_current_user),
 ) -> User:
     if not current_user.is_superuser:
         raise HTTPException(
