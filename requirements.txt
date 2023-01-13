@@ -1,12 +1,16 @@
 alembic==1.9.0
 asyncpg==0.27.0
+emails==0.6
 envparse==0.2.0
 fastapi==0.89.1
 httpx==0.23.3
+passlib==1.7.4
 psycopg2==2.9.5
 pydantic[email]
 pytest-asyncio==0.20.3
 pytest==7.2.0
 python-decouple==3.7
+python-jose==3.3.0
+python-jose[cryptography]
 sqlalchemy==1.4.46
 uvicorn==0.20.0

@@ -16,6 +16,8 @@ class User(Base):
     surname = Column(String, nullable=False)
     email = Column(String, nullable=False, unique=True)
     is_active = Column(Boolean(), default=True)
+    hashed_password = Column(String, nullable=False)
+    is_superuser = Column(Boolean(), default=False)
 
     reviews = relationship("Reviews", back_populates="user")
     user_travel_experiences = relationship("UserTravelExperiences", back_populates="user")

@@ -1,5 +1,6 @@
 import re
 import uuid
+from typing import Optional
 
 from fastapi import HTTPException
 from pydantic import BaseModel, EmailStr, validator
@@ -22,9 +23,17 @@ class ShowUser(TunedModel):
     is_active: bool
 
 
+class UserUpdate(TunedModel):
+    name: str = None
+    surname: str = None
+    email: EmailStr = None
+    password: Optional[str] = None
+
+
 class UserCreate(BaseModel):
     name: str
     surname: str
+    password: str
     email: EmailStr
 
     @validator("name")
@@ -42,3 +51,24 @@ class UserCreate(BaseModel):
                 status_code=422, detail="Surname should contains only letters"
             )
         return value
+
+
+class Token(BaseModel):
+    access_token: str
+    refresh_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    username: str
+
+
+class TokenPayload(BaseModel):
+    sub: Optional[str] = None
+    subject: str
+    token_type: str
+    exp: int
+
+
+class Msg(BaseModel):
+    msg: str
