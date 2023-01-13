@@ -24,6 +24,8 @@ class User(Base):
     bookings = relationship("Booking", back_populates="user")
     tracks = relationship("Track", back_populates="user")
     places = relationship("Place", back_populates="user")
+    donations = relationship("Donations", back_populates="user")
+    dreams = relationship("Dreams", back_populates="user")
 
     content = relationship(
         "Content",

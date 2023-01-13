@@ -141,3 +141,24 @@ async def reset_password(
             session.add(user)
             await session.flush()
             return {"msg": "Password updated successfully"}
+
+async def make_donation(dream_id: int, user_id: int, amount: float):
+    async with db.acquire() as conn:
+        dream = await conn.fetchrow("SELECT id, total_donations FROM dreams WHERE id = $1", dream_id)
+        if dream is None:
+            raise ValueError("Dream with given id does not exist.")
+        if amount > MAX_DONATION_AMOUNT:
+            raise ValueError("Donation amount exceeds the maximum allowed.")
+        try:
+            await conn.execute("""
+                INSERT INTO donations (dream_id, user_id, amount)
+                VALUES ($1, $2, $3)
+            """, dream_id, user_id, amount)
+            await conn.execute("""
+                UPDATE dreams
+                SET total_donations = total_donations + $1
+                WHERE id = $2
+            """, amount, dream_id)
+        except IntegrityError as e:
+            print(e)
+            raise ValueError("Donation could not be completed.")

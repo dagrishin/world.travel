@@ -10,14 +10,14 @@ from starlette import status
 from src.auth.authentication import get_password_hash, verify_password
 from src.auth.models import User
 from src.auth.schemas import UserCreate
+from src.service import BaseDAL
 
 
-class UserDAL:
+class UserDAL(BaseDAL):
     """Data Access Layer for operating user info"""
 
-    def __init__(self, db_session: AsyncSession):
-        self.db_session = db_session
-        self._model = User
+    def __init__(self, db_session):
+        super().__init__(db_session=db_session, model=User)
 
     async def create_user(
             self, obj_in: UserCreate
@@ -61,28 +61,6 @@ class UserDAL:
         if user_qs:
             (user,) = user_qs
             return user
-
-    async def get(self, id):
-        query = select(self._model).where(User.id == id)
-        queryset = await self.db_session.execute(query)
-        (user,) = queryset.first()
-        return user
-
-    async def get_all(self):
-        query = select(self._model)
-        users = await self.db_session.execute(query)
-        users = users.scalars().all()
-        return users
-
-    async def delete(self, id):
-        query = sqlalchemy_delete(self._model).where(self._model.id == id)
-        await self.db_session.execute(query)
-        try:
-            await self.db_session.commit()
-        except Exception as e:
-            await self.db_session.rollback()
-            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to delete user.")
-        return True
 
     async def authenticate(self, email: str, password: str) -> Optional[User]:
         user = await self.get_by_email(email=email)
