@@ -10,7 +10,7 @@ from db.session import get_async_db
 from src.auth.authentication import create_access_token, create_refresh_token, verify_password_reset_token, \
     get_password_hash, generate_password_reset_token
 from src.auth.dependencies import get_refresh_token_data
-from src.auth.exceptions import send_reset_password_email
+from src.auth.utils import send_reset_password_email
 from src.auth.schemas import Token, TokenPayload, Msg
 from src.auth.service import UserDAL
 from src.config import settings

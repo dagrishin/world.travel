@@ -25,7 +25,7 @@ if settings.BACKEND_CORS_ORIGINS:
 main_api_router = APIRouter()
 
 # set routes to the app instance
-main_api_router.include_router(auth_router, prefix="/auth", tags=["auth"])
+main_api_router.include_router(auth_router, )
 main_api_router.include_router(travel_router, prefix="/travel", tags=["travel"])
 main_api_router.include_router(attraction_router, prefix="/attraction", tags=["attraction"])
 app.include_router(main_api_router, prefix=settings.API_V1_STR)

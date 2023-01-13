@@ -1,9 +1,11 @@
 from typing import Optional
 
+from fastapi import HTTPException
 from sqlalchemy import delete as sqlalchemy_delete
 from sqlalchemy import update as sqlalchemy_update
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
+from starlette import status
 
 from src.auth.authentication import get_password_hash, verify_password
 from src.auth.models import User
@@ -27,7 +29,10 @@ class UserDAL:
             hashed_password=get_password_hash(obj_in.password),
         )
         self.db_session.add(new_user)
-        await self.db_session.flush()
+        try:
+            await self.db_session.flush()
+        except Exception as e:
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to create user.")
         return new_user
 
     async def update(self, id, update_data):
@@ -45,9 +50,9 @@ class UserDAL:
 
         try:
             await self.db_session.commit()
-        except Exception:
+        except Exception as e:
             await self.db_session.rollback()
-            raise
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to update user.")
 
     async def get_by_email(self, email: str) -> Optional[User]:
         query = select(self._model).where(User.email == email)
@@ -74,9 +79,9 @@ class UserDAL:
         await self.db_session.execute(query)
         try:
             await self.db_session.commit()
-        except Exception:
+        except Exception as e:
             await self.db_session.rollback()
-            raise
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to delete user.")
         return True
 
     async def authenticate(self, email: str, password: str) -> Optional[User]:

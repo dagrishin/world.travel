@@ -4,11 +4,12 @@ from fastapi import APIRouter, Body, Depends, HTTPException
 from fastapi.encoders import jsonable_encoder
 from pydantic.networks import EmailStr
 from sqlalchemy.ext.asyncio import AsyncSession
+from starlette import status
 
 from db.session import get_async_db
 from src.auth import User
 from src.auth.dependencies import get_current_active_superuser, get_current_active_user
-from src.auth.exceptions import send_new_account_email
+from src.auth.utils import send_new_account_email
 from src.auth.schemas import ShowUser, UserCreate, UserUpdate
 from src.auth.service import UserDAL
 from src.config import settings
@@ -31,7 +32,7 @@ async def create_user(
             user = await user_dal.get_by_email(email=user_in.email)
             if user:
                 raise HTTPException(
-                    status_code=400,
+                    status_code=status.HTTP_400_BAD_REQUEST,
                     detail="The user with this username already exists in the system.",
                 )
             user = await user_dal.create_user(user_in)
