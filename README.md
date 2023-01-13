@@ -6,6 +6,7 @@ This is a web application for tracking and sharing your travel experiences and f
 - FastAPI 
 - SQLAlchemy
 - Python 3.10+
+- Alembic
 
 ## Setting Up
 
