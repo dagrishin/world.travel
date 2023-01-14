@@ -1,2 +1,2 @@
-from .models import User
+from .models import User, Roles, UserRoles
 

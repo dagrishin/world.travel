@@ -14,7 +14,7 @@ class Attractions(Base):
     name = Column(String, nullable=False)
     type = Column(String, nullable=False)
     description = Column(String, nullable=False)
-    city_id = Column(Integer, ForeignKey('cities.id'), nullable=False)
+    city_id = Column(UUID, ForeignKey('cities.id'), nullable=False)
     city = relationship("Cities", back_populates="attractions")
     places = relationship("Place", back_populates="attraction")
     tags = relationship("Tags", secondary="attractions_tags")
